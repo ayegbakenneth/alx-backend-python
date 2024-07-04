@@ -2,6 +2,7 @@
 
 from typing import List
 """ Importing the attribute list from typing module"""
+
 def sum_list(input_list: List[float]) -> float:
     """ Function that recieve a float list and return a float sum"""
     t_sum = 0.0
