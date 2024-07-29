@@ -21,7 +21,17 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         mock_get_json.return_value = {'login': 'test_org'}
         client = GithubOrgClient(org_name)
-        result = client.org
+        recieved = client.org
         expected_url = f"https://api.github.com/orgs/{org_name}"
         mock_get_json.assert_called_once_with(expected_url)
-        self.assertEqual(result, {'login': 'test_org'})
+        self.assertEqual(recieved, {'login': 'test_org'})
+
+    @patch('client.GithubOrgClient.org', new_callable=MagicMock)
+    def test_public_repos_url(self, mock_org):
+        """
+        Test that GithubOrgClient._public_repos_url returns the correct value.
+        """
+        mock_org.return_value = {'repos_url': 'https://api.github.com/orgs/test_org/repos'}
+        client = GithubOrgClient('test_org')
+        recieved = client._public_repos_url
+        self.assertEqual(recieved,'https://api.github.com/orgs/test_org/repos')
