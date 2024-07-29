@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ File executable path """
 
-from utils import access_nested_map, get_json
+from utils import access_nested_map, get_json, memoize
 from unittest import TestCase
 from unittest.mock import patch, Mock
 from parameterized import parameterized
@@ -49,3 +49,27 @@ class TestGetJson(TestCase):
         result = get_json(test_url)
         mock_get.assert_called_once_with(test_url)
         self.assertEqual(result, test_payload)
+
+
+class TestMemoize(TestCase):
+    """ TestMemoize(unittest.TestCase) class with a test_memoize method """
+
+    def test_memoize(self):
+        """ A test_memoize that holds a class """
+
+        class TestClass:
+
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                return self.a_method()
+
+        with patch.object(TestClass, 'a_method') as mock_a_method:
+            test_one = TestClass()
+            object_one = test_one.a_property()
+            object_two = test_one.a_property()
+            mock_a_method.assert_called_once()
+            self.assertEqual(object_one, 42)
+            self.assertEqual(object_one, 42)
