@@ -31,7 +31,9 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         Test that GithubOrgClient._public_repos_url returns the correct value.
         """
-        mock_org.return_value = {'repos_url': 'https://api.github.com/orgs/test_org/repos'}
+        mock_org.return_value = {
+                'repos_url': 'https://api.github.com/orgs/test_org/repos'}
         client = GithubOrgClient('test_org')
         recieved = client._public_repos_url
-        self.assertEqual(recieved,'https://api.github.com/orgs/test_org/repos')
+        self.assertEqual(
+                recieved, 'https://api.github.com/orgs/test_org/repos')
